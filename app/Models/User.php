@@ -27,6 +27,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'birthday',
+        'avatar',
+        'about_me',
+        
     ];
 
     /**
@@ -58,4 +63,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }

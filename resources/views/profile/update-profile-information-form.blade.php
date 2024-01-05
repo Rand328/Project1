@@ -49,21 +49,32 @@
         <!-- Avatar -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="avatar" value="{{ __('Avatar') }}" />
-            <x-input id="avatar" type="file" class="mt-1 block w-full" wire:model="state.avatar" />
 
-            @if (isset($state['avatar']) && $state['avatar'])
-                <!-- Display the temporary avatar preview -->
-                <img src="{{ $state['avatar']->temporaryUrl() }}" alt=" " class="mt-2 rounded-full h-20 w-20 object-cover">
-            @elseif ($this->user->profile_photo_path)
-                <!-- Display the current profile photo -->
-                <img src="{{ url('storage/' . $this->user->profile_photo_path) }}" alt="{{ $this->user->name }}" class="mt-2 rounded-full h-20 w-20 object-cover">
-            @else
-                <!-- Display default white circle -->
-                <div class="rounded-full h-20 w-20 bg-gray-200"></div>
-            @endif
+            <div>
+                <!-- Profile Photo File Input -->
+                <input type="file" wire:model="state.avatar" accept="image/*">
 
-            <x-input-error for="avatar" class="mt-2" />
+                <!-- Current Profile Photo -->
+                @if (!empty($state['avatar']) || $this->user->profile_photo_path)
+                    <div class="mt-2">
+                        @if (!empty($state['avatar']))
+                            <!-- New Profile Photo Preview -->
+                            <img src="{{ $state['avatar']->temporaryUrl() }}" alt="New Profile Photo Preview" class="rounded-full h-20 w-20 object-cover">
+                        @else
+                            <!-- Display the current profile photo -->
+                            @php
+                                $profilePhotoUrl = !empty($this->user->profile_photo_path) ? asset('storage/' . $this->user->profile_photo_path) : '';
+                            @endphp
+                            <img src="{{ $profilePhotoUrl }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                        @endif
+                    </div>
+                @endif
+
+                <!-- Error Display -->
+                <x-input-error for="avatar" class="mt-2" />
+            </div>
         </div>
+
 
 
         <!-- About Me -->
@@ -76,7 +87,7 @@
         <x-slot name="actions">
             <x-action-message class="me-3" on="saved">
                 {{ __('Saved.') }}
-            </x-action-message>                         9
+            </x-action-message>                         
 
             <x-button wire:click="updateProfileInformation" wire:loading.attr="disabled">
                 {{ __('Save') }}

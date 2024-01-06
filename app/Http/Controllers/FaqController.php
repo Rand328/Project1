@@ -40,6 +40,37 @@ class FaqController extends Controller
         return view('faq.faq-create-question', compact('categoryId'));
     }
 
+    public function editCategory($id)
+    {
+        $category = FaqCategory::findOrFail($id);
+        return view('faq.edit-category', compact('category'));
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $category = FaqCategory::findOrFail($id);
+
+        $category->update([
+            'name' => $request->input('categoryName'),
+        ]);
+
+        return redirect()->route('faq.index')->with('success', 'Category updated successfully.');
+    }
+
+    public function destroyCategory($id)
+    {
+        $category = FaqCategory::findOrFail($id);
+
+        // Delete associated questions
+        $category->faqs()->delete();
+
+        // Now, delete the category
+        $category->delete();
+
+        return redirect()->route('faq.index')->with('success', 'Category deleted successfully.');
+    }
+
+
     public function saveQuestion(Request $request, $categoryId)
     {
         $request->validate([
@@ -53,9 +84,18 @@ class FaqController extends Controller
         $question->question = $request->input('question');
         $question->answer = $request->input('answer');
         $question->faq_category_id = $category->id;
-
         $question->save();
 
         return redirect()->route('faq.index')->with('success', 'Question added successfully.');
     }
+
+    public function destroyQuestion($id)
+    {
+        $question = FaqQuestion::findOrFail($id);
+        $question->delete();
+
+        return redirect()->route('faq.index')->with('success', 'Category deleted successfully.');
+    }
+
+
 }

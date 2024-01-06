@@ -31,10 +31,25 @@
                     </button>
 
                     <!-- + Button for Creating a New Question -->
-                    <button class="bg-rose-500 hover:bg-rose-400 text-white font-bold py-0.5 px-2 rounded float-right"
-                            @click="window.location.href='{{ route('faq.createQuestion', ['categoryId' => $category->id]) }}'">
-                        +
-                    </button>
+                    @can('admin')
+                        <button class="bg-rose-500 hover:bg-rose-400 text-white font-bold py-0.5 px-2 rounded float-right"
+                                @click="window.location.href='{{ route('faq.createQuestion', ['categoryId' => $category->id]) }}'">
+                            +
+                        </button>
+                        <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-0.5 px-2 rounded float-right"
+                                @click="window.location.href='{{ route('faq.editCategory', ['id' => $category->id]) }}'">
+                            Edit
+                        </button>
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-0.5 px-2 rounded float-right"
+                                @click="if(confirm('Are you sure you want to delete this category?')) { document.getElementById('deleteCategoryForm{{ $category->id }}').submit(); }">
+                            Delete
+                        </button>
+                    @endcan
+
+                    <form id="deleteCategoryForm{{ $category->id }}" action="{{ route('faq.destroyCategory', ['id' => $category->id]) }}" method="post" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
 
                     <div x-show="openCategory === {{ $category->id }}" class="content">
                         <!-- FAQ Questions -->
@@ -50,6 +65,22 @@
                                 <div x-show="openQuestion === {{ $faq->id }}" class="content text-gray-200 px-2 py-1" role="menuitem">
                                     <p>{{ $faq->answer }}</p>
                                 </div>
+                                
+                                @can('admin')
+                                    <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-0.5 px-2 rounded float-right"
+                                            @click="window.location.href='{{ route('faq.editQuestion', ['id' => $faq->id]) }}'">
+                                        Edit
+                                    </button>
+                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-0.5 px-2 rounded float-right"
+                                            @click="if(confirm('Are you sure you want to delete this question?')) { document.getElementById('deleteQuestionForm{{ $faq->id }}').submit(); }">
+                                        Delete
+                                    </button>
+                                @endcan
+
+                                <form id="deleteQuestionForm{{ $faq->id }}" action="{{ route('faq.destroyQuestion', ['id' => $faq->id]) }}" method="post" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </div>
                         @endforeach
                     </div>

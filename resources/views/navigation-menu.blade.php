@@ -20,6 +20,10 @@
                     <x-nav-link href="{{ route('mini-blog') }}" :active="request()->routeIs('mini-blog')">
                         {{ __('Mini Blog') }}
                     </x-nav-link>
+
+                    <x-nav-link href="{{ route('faq.index') }}" :active="request()->routeIs('faq.index')">
+                        {{ __('FAQs') }}
+                    </x-nav-link>
                 </div>
             </div>
 

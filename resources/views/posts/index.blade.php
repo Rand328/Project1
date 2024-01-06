@@ -35,10 +35,6 @@
                             @endif
                         @endauth
                     </div>
-
-                    <hr class="my-4">
-
-                    <!-- Your existing post display code here -->
                 </div>
             </div>
         @endforeach

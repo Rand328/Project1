@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FAQController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,13 @@ Route::middleware(['web', 'auth', 'admin'])
             ->name('admin.updateRole');
 
         Route::get('/admin/all-users', [AdminController::class, 'allUsers'])->name('admin.allUsers');
+
+        Route::get('/faq/create', [FaqController::class, 'createCategory'])->name('faq.createCategory');
+        Route::post('/faq/create', [FaqController::class, 'saveCategory'])->name('faq.saveCategory');
+        Route::post('/faq/save-category', [FaqController::class, 'saveCategory'])->name('faq.saveCategory');
+
+        Route::get('/faq/{categoryId}/create-question', [FaqController::class, 'createQuestion'])->name('faq.createQuestion');
+        Route::post('/faq/{categoryId}/save-question', [FaqController::class, 'saveQuestion'])->name('faq.saveQuestion');
     });
 
 Route::middleware(['auth'])->group(function () {
@@ -53,5 +61,11 @@ Route::middleware(['auth'])->group(function () {
         'destroy' => 'posts.destroy',
     ]);
 
-    Route::middleware(['auth'])->get('/mini-blog', [PostController::class, 'index'])->name('mini-blog');
+    Route::get('/mini-blog', [PostController::class, 'index'])->name('mini-blog');
+
+    Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
+    Route::get('/faq/{categoryId}/create-question', [FaqController::class, 'createQuestion'])->name('faq.createQuestion');
+    Route::post('/faq/{categoryId}/save-question', [FaqController::class, 'saveQuestion'])->name('faq.saveQuestion');
+
 });

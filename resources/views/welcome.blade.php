@@ -32,8 +32,9 @@
             @endif
 
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                This is a flowers website
-                <p>Log in to start the journey</p>
+                <p>
+                    In this website we will dive together into the divine world of flowers and explore all their characterisics and how to take care of them.
+                    Log in to start your journey</p>
             </div>
         </div>
     </body>

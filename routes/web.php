@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\FAQController;
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +40,17 @@ Route::middleware(['web', 'auth', 'admin'])
 
         Route::get('/faq/{categoryId}/create-question', [FaqController::class, 'createQuestion'])->name('faq.createQuestion');
         Route::post('/faq/{categoryId}/save-question', [FaqController::class, 'saveQuestion'])->name('faq.saveQuestion');
+
+        // Categories
+        Route::get('/faq/category/{id}/edit', [FaqController::class, 'edit'])->name('faq.editCategory');
+        Route::put('/faq/category/{id}/update', [FaqController::class, 'update'])->name('faq.updateCategory');
+        Route::delete('/faq/category/{id}/delete', [FaqController::class, 'destroyCategory'])->name('faq.destroyCategory');
+
+        // Questions
+        Route::get('/faq/question/{id}/edit', [FaqController::class, 'edit'])->name('faq.editQuestion');
+        Route::put('/faq/question/{id}/update', [FaqController::class, 'update'])->name('faq.updateQuestion');
+        Route::delete('/faq/question/{id}/delete', [FaqController::class, 'destroyQuestion'])->name('faq.destroyQuestion');
+
     });
 
 Route::middleware(['auth'])->group(function () {
@@ -65,7 +76,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
-    Route::get('/faq/{categoryId}/create-question', [FaqController::class, 'createQuestion'])->name('faq.createQuestion');
-    Route::post('/faq/{categoryId}/save-question', [FaqController::class, 'saveQuestion'])->name('faq.saveQuestion');
 
 });

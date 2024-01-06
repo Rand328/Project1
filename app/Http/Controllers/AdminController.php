@@ -27,22 +27,7 @@ class AdminController extends Controller
         return view('admin.all-users', compact('users'));
     }
 
-   /* public function updateRole(Request $request, $userId)
-    {
-        $request->validate([
-            'role' => ['required', 'in:user,admin'],
-        ]);
-    
-        $user = User::findOrFail($userId);
-        
-        // Check if the authenticated user has the authority to update roles
-        if (auth()->user()->role === 'admin') {
-            $user->update(['role' => $request->role]);
-        }
-    
-        return redirect()->route('admin.allUsers');
-    }*/
-
+   
     public function updateRole(Request $request, User $user)
     {
         $this->authorize('admin-panel');

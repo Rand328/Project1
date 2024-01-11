@@ -68,9 +68,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## Run the project
 
 To run the project, open the terminal in VS Code or in your terminal in the folder where your project is located. run the command `npm install` to install the needed files or ensure that you have them. then run `npm run dev`.
-Keep it running and open a different terminal and go to the same location as the first terminal. Here we are going to set the database connection. Open xampp and start your Apache and mySQL, then go bacj to your terminal and run `php artisan migrate:fresh --seed`. If it refuses to migrate because it didn't finf the database "laraveldb", run the migration and seeding steps seperatly as follows: 
+Keep it running and open a different terminal and go to the same location as the first terminal. Here we are going to set the database connection. Open xampp and start your Apache and mySQL, then go back to your terminal and run `php artisan migrate:fresh --seed`. If it refuses to migrate because it didn't finf the database "laraveldb", run the migration and seeding steps seperatly as follows: 
+
 `php artisan migrate`
 `php artisan db:seed`
+
 This would solve your problem.
 Finally, when that is all set we can run the project. In your terminal run the following command: `php artisan serve` and open the link you get. 
 

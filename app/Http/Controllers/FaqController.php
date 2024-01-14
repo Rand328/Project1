@@ -33,12 +33,6 @@ class FaqController extends Controller
         return redirect()->route('faq.index')->with('success', 'Category created successfully.');
     }
 
-    public function createQuestion($categoryId)
-    {
-        $category = FaqCategory::findOrFail($categoryId);
-
-        return view('faq.faq-create-question', compact('categoryId'));
-    }
 
     public function editCategory($id)
     {
@@ -68,6 +62,31 @@ class FaqController extends Controller
         $category->delete();
 
         return redirect()->route('faq.index')->with('success', 'Category deleted successfully.');
+    }
+
+    
+    public function createQuestion($categoryId)
+    {
+        $question = FaqQuestion::findOrFail($id);
+        return view('faq.edit-question', compact('question'));
+    }
+
+    public function editQuestion($id)
+    {
+        $question = FaqQuestion::findOrFail($id);
+        return view('faq.edit-question', compact('question'));
+    }
+
+    public function updateQuestion(Request $request, $id)
+    {
+        $question = FaqQuestion::findOrFail($id);
+
+        $question->update([
+            'question' => $request->input('question'),
+            'answer' => $request->input('answer'),
+        ]);
+
+        return redirect()->route('faq.index')->with('success', 'Question updated successfully.');
     }
 
 

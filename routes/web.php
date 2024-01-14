@@ -42,13 +42,13 @@ Route::middleware(['web', 'auth', 'admin'])
         Route::post('/faq/{categoryId}/save-question', [FaqController::class, 'saveQuestion'])->name('faq.saveQuestion');
 
         // Categories
-        Route::get('/faq/category/{id}/edit', [FaqController::class, 'edit'])->name('faq.editCategory');
-        Route::put('/faq/category/{id}/update', [FaqController::class, 'update'])->name('faq.updateCategory');
+        Route::get('/faq/category/{id}/edit', [FaqController::class, 'editCategory'])->name('faq.editCategory');
+        Route::put('/faq/category/{id}/update', [FaqController::class, 'updateCategory'])->name('faq.updateCategory');
         Route::delete('/faq/category/{id}/delete', [FaqController::class, 'destroyCategory'])->name('faq.destroyCategory');
 
         // Questions
-        Route::get('/faq/question/{id}/edit', [FaqController::class, 'edit'])->name('faq.editQuestion');
-        Route::put('/faq/question/{id}/update', [FaqController::class, 'update'])->name('faq.updateQuestion');
+        Route::get('/faq/question/{id}/edit', [FaqController::class, 'editQuestion'])->name('faq.editQuestion');
+        Route::put('/faq/question/{id}/update', [FaqController::class, 'updateQuestion'])->name('faq.updateQuestion');
         Route::delete('/faq/question/{id}/delete', [FaqController::class, 'destroyQuestion'])->name('faq.destroyQuestion');
 
     });
@@ -76,5 +76,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
+    // save posts to mySaves
+    Route::post('/posts/{postId}/save', [PostController::class, 'savePost'])->name('posts.save');
+    Route::get('/my-saves', [PostController::class, 'mySaves'])->name('my-saves');
+    Route::delete('/my-saves/{postId}/remove', [PostController::class, 'removeSavedPost'])->name('posts.remove');
 
 });

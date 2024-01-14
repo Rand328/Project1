@@ -65,8 +65,8 @@
                                     }
                                 </script>
                             @endif
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('save-post-form').submit();" class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl m-1">Save</a>
-                            <form id="save-post-form" action="{{ route('posts.save', $post->id) }}" method="post" style="display: none;">
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('save-post-form-{{ $post->id }}').submit();" class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl m-1">Save</a>
+                            <form id="save-post-form-{{ $post->id }}" action="{{ route('posts.save', $post->id) }}" method="post" style="display: none;">
                                 @csrf
                             </form>
                         @endauth

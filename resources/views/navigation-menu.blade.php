@@ -18,7 +18,7 @@
                     </x-nav-link>
 
                     <x-nav-link href="{{ route('mini-blog') }}" :active="request()->routeIs('mini-blog')">
-                        {{ __('Mini Blog') }}
+                        {{ __('Flowers Blog') }}
                     </x-nav-link>
 
                     <x-nav-link href="{{ route('faq.index') }}" :active="request()->routeIs('faq.index')">
@@ -112,7 +112,7 @@
                             </x-dropdown-link>
 
                             <x-dropdown-link href="{{ route('mini-blog') }}" :active="request()->routeIs('mini-blog')">
-                                {{ __('Mini Blog') }}
+                                {{ __('Flowers Blog') }}
                             </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

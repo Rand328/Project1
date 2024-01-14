@@ -35,19 +35,25 @@ class ProfileController extends Controller
      * @param  UpdateUserProfileInformation  $updateUserProfileInformation
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, UpdateUserProfileInformation $updateUserProfileInformation)
+    public function update(Request $request, $user)
     {
-        $this->authorize('update', $request->user());
+        $user = User::findOrFail($user);
 
-        // Validate and update the user's profile information
-        $updateUserProfileInformation->update($request->user(), $request->all());
+        // Validate and update user data
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'birthday' => 'nullable|date',
+            'about_me' => 'nullable|string|max:500',
+           
+        ]);
 
-        // Log the avatar storage path
-        if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('profile-photos', 'public');
-            Log::info('Avatar stored at: ' . $avatarPath);
-        }
-
-        return back()->with('success', 'Profile information updated successfully.');
+        $user->update([
+            'name' => $request->input('name'),
+            'birthday' => $request->input('birthday'),
+            'about_me' => $request->input('about_me'),
+           
+        ]);
+        $this->emit('saved'); 
+        return redirect()->route('user.profile', $user);
     }
 }

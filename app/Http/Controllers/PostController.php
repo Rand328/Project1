@@ -7,6 +7,8 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+    public $image;
+    
     // Show all posts
     public function index()
     {
@@ -14,51 +16,75 @@ class PostController extends Controller
         return view('posts.index', ['posts' => $posts]);
     }
 
-        
-    // Create post
     public function create() {
-        return view('posts.create');
+        // Define $image variable to avoid undefined variable error
+        $image = null;
+    
+        return view('posts.create', compact('image'));
     }
+
     // Store new post in database
-    public function store(Request $request) {
-        // validations
+    public function store(Request $request)
+    {
+        // Validate the request
         $request->validate([
-          'title' => 'required',
-          'description' => 'required',
-          'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
-      
-        $post = new Post;
-      
-        $file_name = time() . '.' . request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('images'), $file_name);
-      
-        $post->title = $request->title;
-        $post->description = $request->description;
-        $post->image = $file_name;
-      
+
+        // Handle file upload
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        // Create a new post instance
+        $post = new Post([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'image' => $imagePath, // Save the image path to the database
+        ]);
+
+        // Save the post
         $post->save();
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+
+        // Redirect back with success message
+        return redirect()->route('posts.index')->with('success', 'Post created successfully');
     }
+
 
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        return view('posts.edit', ['post' => $post, 'currentImage' => asset('storage/' . $post->image)]);
     }
+
 
 
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            // Your validation rules here
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Add image validation
         ]);
 
+        // Handle file upload
+        $imagePath = $post->image;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+
+        // Update post data
         $post->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            // Other fields
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'image' => $imagePath,
         ]);
 
+        // Redirect back with success message
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 

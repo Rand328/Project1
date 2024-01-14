@@ -16,6 +16,12 @@ Thank you for considering contributing to the Laravel framework! The contributio
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
+## About
+
+This is a flowers blog. As an admin you can create new posts about flowers to inform people and help them take care of their flowers. You can also edit or dekete existant posts. In the FAQ page you can add new categories and questions and answer, and you can edit or delete existant categories or a specific question in a category. You also can view all the users and change their role or delete a specific user. An admin can also create new admins. You have a profile page with all your information.
+
+As a user you can view posts not not make any changes to them or create them. You can view the FAQ page but not make any changes to it. And you have your own profilepage that you can set up as you like. You can change your name, email, birthday, profile picture and write a litlle something about yourself. You also have the option to update your password, delete your account, enable two factor authentication and manage and log out your active sessions on other browsers and devices.  
+
 ## Run the project
 
 To run the project, open the terminal in VS Code or in your terminal in the folder where your project is located. 
@@ -32,3 +38,12 @@ This would solve your problem.
 
 Finally, when that is all set we can run the project. In your terminal run the following command: `php artisan serve` and open the link you get. 
 
+## References
+
+Here a list of the tools I used to create this project:
+
+Chatgpt
+
+https://kinsta.com/blog/laravel-blog/ 
+
+https://github.com/NoumanAhmad448/Laravel-online-videos-based-learning-system/tree/master 

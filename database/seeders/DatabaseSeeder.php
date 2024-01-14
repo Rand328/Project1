@@ -14,9 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed default admin
-        $this->call(AdminSeeder::class);
 
+        $this->call([
+            // Seed default admin
+            AdminSeeder::class,
+            // Seed 2 posts
+            PostSeeder::class,
+            // Seed FAQ categories and questions
+            FaqSeeder::class,
+        ]);
+        
         // Seed dummy users: 2 with role admin, 10 with role user 
         User::factory(2)->create([
             'role' => 'admin',

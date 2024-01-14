@@ -7,9 +7,16 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use Illuminate\Support\Facades\Log;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
+    
+  //  use WithFileUploads;
+
+    public $photo;
+
+    public $user;
     /**
      * Validate and update the given user's profile information.
      *
@@ -20,13 +27,19 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'birthday' => ['nullable', 'date'],
-            'avatar' => ['nullable', 'image', 'max:1024'],
             'about_me' => ['nullable', 'string', 'max:500'],
-        ])->validateWithBag('updateProfileInformation');
+            //'profile_photo_path' => ['nullable', 'image', 'max:1024'],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            ])->validateWithBag('updateProfileInformation');
 
-        if (isset($input['avatar'])) {
-            $this->updateUserProfilePhoto($user, $input['avatar']);
+
+        if (isset($input['photo'])) {
+            $photoPath = $input['photo']->store('photos', 'public');
+            $user->update(['profile_photo_path' => $photoPath]);
+
+            // Log::info($photoPath);
         }
 
         if ($input['email'] !== $user->email &&
@@ -41,18 +54,22 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             ])->save();
         }
     }
-
-    /**
+  /**
      * Update the user's profile photo.
      *
      * @param  \App\Models\User  $user
      * @param  \Illuminate\Http\UploadedFile  $photo
      */
-    protected function updateUserProfilePhoto(User $user, $photo): void
-    {
-        $user->updateProfilePhoto($photo);
-    }
+    /** protected function updateUserProfilePhoto(User $user, $photo): void
+   * {
+      *  $user->profile_photo_path = $photo->store('profile-photos', 'public');
+       * $user->save();
+   * }*/
 
+    public function mount(User $user)
+    {
+        $this->user = $user;
+    }
     /**
      * Update the given verified user's profile information.
      *
@@ -63,33 +80,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],
+            'email_verified_at' => null,
             'birthday' => $input['birthday'],
             'about_me' => $input['about_me'],
-            'email_verified_at' => null,
         ])->save();
 
         $user->sendEmailVerificationNotification();
     }
-
-    public function updateProfileInformation()
-    {
-        $this->validate([
-            'state.name' => ['required', 'string', 'max:255'],
-            'state.email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore(auth()->id())],
-            'state.birthday' => ['nullable', 'date'],
-            'state.avatar' => ['nullable', 'image', 'max:1024'],
-            'state.about_me' => ['nullable', 'string', 'max:500'],
-        ]);
-
-        if ($this->state['avatar']) {
-            $avatarPath = $this->state['avatar']->store('profile-photos', 'storage/app/public');
-            Log::info('Avatar stored at: ' . $avatarPath);
-            $this->user->update(['profile_photo_path' => $avatarPath]);
-        }
-
-        app(UpdateUserProfileInformation::class)->update(auth()->user(), $this->state);
-
-        $this->emit('saved'); // This emits a message to indicate that the profile information has been saved successfully
-    }
-
+    
 }

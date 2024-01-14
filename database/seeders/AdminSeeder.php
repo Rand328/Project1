@@ -27,7 +27,6 @@ class AdminSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        // You can add more seed data if needed
     }
 }
 

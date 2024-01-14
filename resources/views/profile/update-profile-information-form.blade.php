@@ -2,7 +2,7 @@
     <x-slot name="title">
         {{ __('Profile Information') }}
     </x-slot>
-
+                                          
     <x-slot name="description">
         {{ __('Update your account\'s profile information and email address.') }}
     </x-slot>
@@ -46,37 +46,28 @@
             <x-input-error for="birthday" class="mt-2" />
         </div>
 
-        <!-- Avatar -->
+        <!-- Profile Photo Upload -->
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="avatar" value="{{ __('Avatar') }}" />
-
-            <div>
-                <!-- Profile Photo File Input -->
-                <input type="file" wire:model="state.avatar" accept="image/*">
-
-                <!-- Current Profile Photo -->
-                @if (!empty($state['avatar']) || $this->user->profile_photo_path)
-                    <div class="mt-2">
-                        @if (!empty($state['avatar']))
-                            <!-- New Profile Photo Preview -->
-                            <img src="{{ $state['avatar']->temporaryUrl() }}" alt="New Profile Photo Preview" class="rounded-full h-20 w-20 object-cover">
-                        @else
-                            <!-- Display the current profile photo -->
-                            @php
-                                $profilePhotoUrl = !empty($this->user->profile_photo_path) ? asset('storage/' . $this->user->profile_photo_path) : '';
-                            @endphp
-                            <img src="{{ $profilePhotoUrl }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
-                        @endif
-                    </div>
+            <div class="col-span-6 sm:col-span-4">
+                @if(auth()->user()->profile_photo_path)
+                    <!-- Display the current profile photo -->
+                    <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" alt="{{ auth()->user()->name }}" class="rounded-full h-20 w-20 object-cover">                @else
+                    <!-- Placeholder or default image when the user doesn't have a profile picture -->
+                    <svg class="h-20 w-20 rounded-full bg-gray-200 text-gray-500">
+                        <!-- Placeholder icon, e.g., initials:   {{ substr(Auth::user()->name, 0, 1) }} -->
+                    </svg>
+                    
                 @endif
-
-                <!-- Error Display -->
-                <x-input-error for="avatar" class="mt-2" />
+            </div>
+              <!-- Profile Photo Upload -->
+              <div class="col-span-6 sm:col-span-4 mt-4">
+                <x-label for="photo" value="{{ __('Profile Photo') }}" />
+                <input id="photo" type="file" wire:model="photo" accept="image/*">
+                <x-input-error for="photo" class="mt-2" />
             </div>
         </div>
 
-
-
+        
         <!-- About Me -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="about_me" value="{{ __('About Me') }}" />
@@ -92,8 +83,8 @@
             <x-button wire:click="updateProfileInformation" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-button>
-        </x-slot>
 
-           
+        </x-slot>
+   
     </x-slot>
 </x-form-section>

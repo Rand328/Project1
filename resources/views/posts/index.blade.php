@@ -29,8 +29,8 @@
 
     @if (count($posts) > 0)
         @foreach ($posts as $post)
-            <div class="mx-auto bg-gray-400 mt-8 p-1 rounded-lg w-full md:w-1/2 lg:w-4/7">
-                <div class="col-12 bg-slate-500 p-4 rounded-md shadow-md">
+            <div class="mx-auto bg-gray-400 mt-8 p-1 bg-opacity-75 rounded-lg w-full md:w-1/2 lg:w-4/7">
+                <div class="col-12 bg-slate-500 p-4 bg-transparent-75 rounded-md">
                     <h4 class="text-3xl text-white font-bold text-center mb-3 bg-slate-700 py-2 rounded-md">{{ $post->title }}</h4>
 
                     <div class="flex justify-center bg-slate-700 mb-3 p-3 rounded-md">
@@ -65,7 +65,7 @@
                                     }
                                 </script>
                             @endif
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('save-post-form-{{ $post->id }}').submit();" class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl m-1">Save</a>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('save-post-form-{{ $post->id }}').submit();" class="btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-2xl m-1">Save</a>
                             <form id="save-post-form-{{ $post->id }}" action="{{ route('posts.save', $post->id) }}" method="post" style="display: none;">
                                 @csrf
                             </form>

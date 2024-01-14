@@ -32,20 +32,17 @@ class AdminController extends Controller
     {
         $this->authorize('admin-panel');
         $this->authorize('admin');
-     
+
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
             'role' => ['required', Rule::in(['user', 'admin'])],
         ]);
 
-        //update a user's role
+        // Update a user's role
         $user->update(['role' => $validatedData['role']]);
-       
- 
+
         return back()->with('success', 'User role updated successfully');
     }
+
 
     public function createUser(Request $request)
     {

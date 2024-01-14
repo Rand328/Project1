@@ -28,12 +28,19 @@
                     @endforeach
                 </ul>
 
-                <h2 class="text-2xl font-semibold mt-4">Create New Admin</h2>
+                <h2 class="text-2xl font-semibold mt-4">Create New Admin</h2><form action="{{ route('admin.createUser') }}" method="post">
                 <form action="{{ route('admin.createUser') }}" method="post">
                     @csrf
                     <label for="name">Name:</label>
                     <input type="text" name="name" required>
-                    <!-- Add other form fields as needed -->
+                    <br/>
+                    <label for="email">E-mail:</label>
+                    <input type="text" name="email" required>
+                    <br/>
+                    <label for="password">Password:</label>
+                    <input type="password" name="pawword" required>
+                    <br/>
+                    
                     <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">Create User</button>
                 </form>
             </div>

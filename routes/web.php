@@ -76,5 +76,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
+    // save posts to mySaves
+    Route::post('/posts/{postId}/save', [PostController::class, 'savePost'])->name('posts.save');
+    Route::get('/my-saves', [PostController::class, 'mySaves'])->name('my-saves');
+    Route::delete('/my-saves/{postId}/remove', [PostController::class, 'removeSavedPost'])->name('posts.remove');
 
 });

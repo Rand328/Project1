@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -88,6 +89,26 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
+    public function savePost($postId)
+    {
+        $user = Auth::user();
+
+        // Attach the post to the user's saved posts
+        $user->savedPosts()->attach($postId);
+
+        return redirect()->route('posts.index')->with('success', 'Post saved successfully.');
+    }
+
+    public function mySaves()
+    {
+        $user = Auth::user();
+
+        // Load the user's saved posts
+        $savedPosts = $user->savedPosts;
+
+        return view('posts.my-saves', compact('savedPosts'));
+    }
+
     public function destroy(Post $post)
     {
         $post->delete();
@@ -99,6 +120,16 @@ class PostController extends Controller
         $this->authorizeResource(Post::class, 'post', [
             'except' => ['index'], // Exclude 'index' from authorization
         ]);
+    }
+
+    public function removeSavedPost($postId)
+    {
+        $user = Auth::user();
+
+        // Detach the post from the user's saved posts
+        $user->savedPosts()->detach($postId);
+
+        return redirect()->route('my-saves')->with('success', 'Post removed from saved posts.');
     }
 
 }

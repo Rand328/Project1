@@ -18,9 +18,14 @@
                         {{ __('Flowers Blog') }}
                     </x-nav-link>
 
+                    <x-nav-link href="{{ route('my-saves') }}" :active="request()->routeIs('my-saves')">
+                        {{ __('My Saves') }}
+                    </x-nav-link>
+
                     <x-nav-link href="{{ route('faq.index') }}" :active="request()->routeIs('faq.index')">
                         {{ __('FAQs') }}
                     </x-nav-link>
+
                 </div>
             </div>
 

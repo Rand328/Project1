@@ -65,13 +65,18 @@
                                     }
                                 </script>
                             @endif
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('save-post-form').submit();" class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl m-1">Save</a>
+                            <form id="save-post-form" action="{{ route('posts.save', $post->id) }}" method="post" style="display: none;">
+                                @csrf
+                            </form>
                         @endauth
                     </div>
+                    
                 </div>
             </div>
         @endforeach
     @else
-        <p>No Posts found</p>
+        <p class="p-3 text-purple-200 text-sm">No Posts found</p>
     @endif
 
 </x-app-layout>

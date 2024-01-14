@@ -99,15 +99,6 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post saved successfully.');
     }
 
-    public function mySaves()
-    {
-        $user = Auth::user();
-
-        // Load the user's saved posts
-        $savedPosts = $user->savedPosts;
-
-        return view('posts.my-saves', compact('savedPosts'));
-    }
 
     public function destroy(Post $post)
     {
@@ -120,6 +111,16 @@ class PostController extends Controller
         $this->authorizeResource(Post::class, 'post', [
             'except' => ['index'], // Exclude 'index' from authorization
         ]);
+    }
+    
+    public function mySaves()
+    {
+        $user = Auth::user();
+
+        // Load the user's saved posts
+        $savedPosts = $user->savedPosts;
+
+        return view('posts.my-saves', compact('savedPosts'));
     }
 
     public function removeSavedPost($postId)

@@ -42,8 +42,10 @@ Finally, when that is all set we can run the project. In your terminal run the f
 
 Here a list of the tools I used to create this project:
 
-Chatgpt
+- Chatgpt
 
-https://kinsta.com/blog/laravel-blog/ 
+- https://kinsta.com/blog/laravel-blog/ 
 
-https://github.com/NoumanAhmad448/Laravel-online-videos-based-learning-system/tree/master 
+- https://github.com/NoumanAhmad448/Laravel-online-videos-based-learning-system/tree/master
+
+- https://tailwindcss.com

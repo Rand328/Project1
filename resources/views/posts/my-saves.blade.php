@@ -7,8 +7,8 @@
 
     @if (!is_null($savedPosts) && count($savedPosts) > 0)
         @foreach ($savedPosts as $savedPost)
-            <div class="mx-auto bg-gray-400 mt-8 p-1 rounded-lg w-full md:w-1/2 lg:w-4/7">
-                <div class="col-12 bg-slate-500 p-4 rounded-md shadow-md">
+            <div class="mx-auto bg-gray-400 bg-transparent-75 mt-8 p-1 rounded-lg w-full md:w-1/2 lg:w-4/7">
+                <div class="col-12 bg-slate-500 bg-transparent-75 p-4 rounded-md shadow-md">
                     <h4 class="text-3xl text-white font-bold text-center mb-3 bg-slate-700 py-2 rounded-md">{{ $savedPost->title }}</h4>
 
                     <div class="flex justify-center bg-slate-700 mb-3 p-3 rounded-md">

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use App\Models\ContactForm;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactFormSubmitted;
 
 
 class AdminController extends Controller
@@ -63,6 +66,65 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', 'User created successfully');
+    }
+
+
+    public function index()
+    {
+        $contactForms = ContactForm::where('sent', false)->get();
+    
+        return view('admin-panel', ['contactForms' => $contactForms]);
+    }
+
+    public function showContactForms()
+    {
+        $contactForms = ContactForm::where('sent', false)
+            ->whereDoesntHave('replies') 
+            ->get();
+        
+        return view('admin.contact_forms', compact('contactForms'));
+    }
+
+
+    public function replyToContactForm($id)
+    {
+        $contactForm = ContactForm::findOrFail($id);
+        return view('admin.reply_to_contact_form', compact('contactForm'));
+    }
+       
+
+    public function sendReplyToContactForm(Request $request, $id)
+    {
+        // Validate the form data
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+        
+        // Fetch the contact form data
+        $contactForm = ContactForm::findOrFail($id);
+        $replyMessage = $request->input('message');
+        
+        try {
+            // Store the reply in the replies table associated with the contact form
+            $contactForm->replies()->create(['message' => $replyMessage]);
+        
+            // Send email to the contact form submitter
+            $formData = [
+                'name' => $contactForm->name,
+                'email' => $contactForm->email,
+                'message' => $replyMessage, // Use the reply message instead of the original message
+            ];
+        
+            Mail::to($contactForm->email)
+                ->send(new ContactFormSubmitted($formData, (int)$id, $replyMessage));
+        
+            // Mark the contact form as replied
+            $contactForm->update(['sent' => true]);
+        
+            return redirect()->back()->with('success', 'Reply sent successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to send reply. Please try again.');
+        }
     }
 
 }

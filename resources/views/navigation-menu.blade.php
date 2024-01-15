@@ -23,7 +23,11 @@
                     </x-nav-link>
 
                     <x-nav-link href="{{ route('faq.index') }}" :active="request()->routeIs('faq.index')">
-                        {{ __('FAQs') }}
+                        {{ __('FAQ') }}
+                    </x-nav-link>
+                    
+                    <x-nav-link href="{{ route('contact.show') }}" :active="request()->routeIs('contact.show')">
+                        {{ __('Contact') }}
                     </x-nav-link>
 
                 </div>
@@ -117,7 +121,19 @@
                                 {{ __('Flowers Blog') }}
                             </x-dropdown-link>
 
+                            <x-dropdown-link href="{{ route('faq.index') }}" :active="request()->routeIs('faq.index')">
+                                {{ __('FAQ') }}
+                            </x-dropdown-link>
+
+                            <x-dropdown-link href="{{ route('contact.show') }}" :active="request()->routeIs('contact.show')">
+                                {{ __('Contact') }}
+                            </x-dropdown-link>
+
                             <div class="border-t border-gray-200 dark:border-gray-600"></div>
+
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Admins only') }}
+                            </div>
 
                             <!-- All Users With Roles And Create New Admin -->
                             @can('admin-panel')
@@ -125,6 +141,8 @@
                                     {{ __('All Users') }}
                                 </x-dropdown-link>
                             @endcan
+
+                            <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}" x-data>

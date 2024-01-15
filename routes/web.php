@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +56,12 @@ Route::middleware(['web', 'auth', 'admin'])
         Route::put('/faq/question/{id}/update', [FaqController::class, 'updateQuestion'])->name('faq.updateQuestion');
         Route::delete('/faq/question/{id}/delete', [FaqController::class, 'destroyQuestion'])->name('faq.destroyQuestion');
 
+        Route::get('/admin/contact-forms', [AdminController::class, 'showContactForms'])->name('admin.contactForms');
+        Route::get('/admin/reply/{id}', [AdminController::class, 'replyToContactForm'])->name('admin.reply');
+        Route::post('/admin/send-reply/{id}', [AdminController::class, 'sendReplyToContactForm'])->name('admin.sendReply');
+
+        Route::get('/admin/reply/{id}', [ContactController::class, 'showContactFormReply'])->name('admin.reply');
+
     });
 
 Route::middleware(['auth'])->group(function () {
@@ -83,4 +92,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/my-saves', [PostController::class, 'mySaves'])->name('my-saves');
     Route::delete('/my-saves/{postId}/remove', [PostController::class, 'removeSavedPost'])->name('posts.remove');
 
+    Route::get('/contact', [ContactController::class, 'show'])->name    ('contact.show');
+    Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
 });
+
+// Route::get('/contact', function(){
+//     Mail::to('test@email.com')->send(new TestMail());
+// });
+

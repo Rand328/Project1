@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AboutController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +97,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/contact', [ContactController::class, 'show'])->name    ('contact.show');
     Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
+    Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+
 });
+
 
 // Route::get('/contact', function(){
 //     Mail::to('test@email.com')->send(new TestMail());

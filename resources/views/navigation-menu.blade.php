@@ -117,12 +117,6 @@
                                 {{ __('Flowers Blog') }}
                             </x-dropdown-link>
 
-                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                                    {{ __('API Tokens') }}
-                                </x-dropdown-link>
-                            @endif
-
                             <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
                             <!-- All Users With Roles And Create New Admin -->
@@ -187,12 +181,6 @@
                 <x-responsive-nav-link href="{{ route('admin.allUsers') }}" :active="request()->routeIs('admin.allUsers')">
                     {{ __('All Users') }}
                 </x-responsive-nav-link>
-
-                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                        {{ __('API Tokens') }}
-                    </x-responsive-nav-link>
-                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}" x-data>

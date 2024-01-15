@@ -38,4 +38,5 @@ This would solve your problem.
 
 Finally, when that is all set we can run the project. In your terminal run the following command: `php artisan serve` and open the link you get. 
 
-Have fun diving into our world!
+
+##Have fun diving into our world!

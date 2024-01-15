@@ -129,6 +129,10 @@
                                 {{ __('Contact') }}
                             </x-dropdown-link>
 
+                            <x-dropdown-link href="{{ route('about.index') }}" :active="request()->routeIs('about.index')">
+                                {{ __('About') }}
+                            </x-dropdown-link>
+
                             <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
                             <div class="block px-4 py-2 text-xs text-gray-400">
